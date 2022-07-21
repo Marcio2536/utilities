@@ -1,7 +1,6 @@
+# Original Repo: https://github.com/MCL7D9/RoBoMaster
 from ast import Pass
 from itertools import permutations
-import re
-import random
 enter=input("Enter 4 number and a sign: ")
 sign=enter[4]
 ele=[0,0,0,0]
@@ -52,7 +51,7 @@ def plus():
 			reslt=plist[i]+plist[j]
 			if reslt==24:
 					solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
-	print(enter_list, solution)
+	print(solution)
 def minus():
 	matched = False
 	mlist=enter_list
@@ -65,9 +64,9 @@ def minus():
 			if mlist[i] > mlist[j]:
 				reslt=mlist[i] - mlist[j]
 				if reslt==24:
-					solution=str(i)+"-"+str(j)+"=24"
+					solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
 					break
-	print(enter_list, solution)
+	print(solution)
 def multi():
 	global ele
 	a = int(ele[0])
