@@ -1,13 +1,16 @@
 # Original Repo: https://github.com/MCL7D9/RoBoMaster
 from ast import Pass
 from itertools import permutations
+import  time
 enter=input("Enter 4 number and a sign: ")
+startime = time.time()
 sign=enter[4]
 ele=[0,0,0,0]
 ddg_list =[]
 enter_list=[0,0,0,0]
 reslt=0
 solution=""
+matched = False
 length=0
 def analyze():
 	global length
@@ -35,38 +38,121 @@ def analyze():
 		pass
 		divid()
 def plus():
-	matched = False
+	global ele, matched
+	a = int(ele[0])
+	b = int(ele[1])
+	c = int(ele[2])
+	d = int(ele[3])
 	plist=enter_list
 	length=len(plist)
 	plist.sort(reverse=True)
 	i = 0
+	#A+B+C+D
+	if a+b+c+d ==24:
+		print('index: 0+1+2+3=24')
+		matched = True
+	# A+B+C
+	if not matched and a+b+c == 24:
+		print(a,'+', b, '+', c,'= 24')
+		matched = True
+	if not matched and a+b+d == 24:
+		print(a,'+', b, '+', d,'= 24')
+		matched = True
+	if not matched and a+c+d == 24:
+		print(a,'+', c, '+', d,'= 24')
+		matched = True
+	if not matched and b+c+d == 24:
+		print(b,'+', c, '+', d,'= 24')
+		matched = True
+	# AB + C + D
+	if not matched:
+		temp = str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3])
+		templist = list(p for p in permutations(temp, 2))
+		templist = [item for t in templist for item in t]
+		for i in range(len(templist)):
+			templist[i] = int(templist[i])
+		for i in range(12):
+			tempsum = templist[2*i]*10 + templist[2*i + 1]
+			tempele = ele
+			try:
+				for k in range(4):
+					if templist[2*i] == ele[k]:
+						tempele.pop(k)
+			except:
+				pass
+			try:
+				for k in range(len(tempele)):
+					if templist[2*i + 1] == ele[k]:
+						tempele.pop(k)
+			except:
+				pass
+			tempsum2 = 0
+			for k in range(len(tempele)):
+				tempsum2 += tempele[k]
+			if tempsum + tempsum2 == 24:
+				print(tempsum,'+',tempele[0],'+',tempele[1],'= 24')
+				matched = True
+				break
 	while not matched:
 		if plist[0]>24:
 			del plist[0]
 		else:
 			matched = True
-	solution = ""
-	for i in range(len(plist)):
-		for j in range(len(plist)):
-			reslt=plist[i]+plist[j]
-			if reslt==24:
-					solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
-	print(solution)
+		solution = ""
+		for i in range(len(plist)):
+			for j in range(len(plist)):
+				reslt=plist[i]+plist[j]
+				if reslt==24:
+						solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
+						break
+		print(solution)
 def minus():
-	matched = False
+	global matched
 	mlist=enter_list
 	length=len(mlist)
 	mlist.sort(reverse=True)
 	i = 0
 	solution = ""
-	for i in range(length):
-		for j in range(length):
-			if mlist[i] > mlist[j]:
-				reslt=mlist[i] - mlist[j]
-				if reslt==24:
-					solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
-					break
-	print(solution)
+	# AB - C - D
+	if not matched:
+		temp = str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3])
+		templist = list(p for p in permutations(temp, 2))
+		templist = [item for t in templist for item in t]
+		for i in range(len(templist)):
+			templist[i] = int(templist[i])
+		for i in range(12):
+			tempsum = templist[2*i]*10 + templist[2*i + 1]
+			tempele = ele
+			try:
+				for k in range(4):
+					if templist[2*i] == ele[k]:
+						tempele.pop(k)
+			except:
+				pass
+			try:
+				for k in range(len(tempele)):
+					if templist[2*i + 1] == ele[k]:
+						tempele.pop(k)
+			except:
+				pass
+			tempsum2 = 0
+			for k in range(len(tempele)):
+				tempsum2 += tempele[k]
+			if tempsum - tempsum2 == 24:
+				print(tempsum,'-',tempele[0],'-',tempele[1],'= 24')
+				matched = True
+				break
+	
+	# A - B
+	if not matched:
+		for i in range(length):
+			for j in range(length):
+				if mlist[i] > mlist[j]:
+					reslt=mlist[i] - mlist[j]
+					if reslt==24:
+						solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
+						break
+		print(solution)
 def multi():
 	global ele
 	a = int(ele[0])
@@ -75,7 +161,9 @@ def multi():
 	d = int(ele[3])
 	index = 0
 	# A*B*C*D
-	if a * b * c * d == 24:
+	if matched:
+		index = 1
+	if (a * b * c * d == 24):
 		print(a,'*', b,'*', c,'*', d,'= 24')
 		index = 1
 	# AB*C
@@ -114,6 +202,7 @@ def multi():
 					if ele[i] * ele[j] == 24:
 						print(i,'*',j,'= 24')
 						index = 1
+						break
 def divid():
 	global ele
 	a = int(ele[0])
@@ -142,3 +231,6 @@ def divid():
 					index = 1
 					break
 analyze()
+endtime = time.time()
+usedtime = endtime - startime
+print(usedtime)
