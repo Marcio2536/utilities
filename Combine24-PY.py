@@ -17,7 +17,7 @@ length=0
 def analyze():
 	global length
 	for i in range(4):
-		enter_list[i]=enter[i]
+		enter_list[i]=int(enter[i])
 		ele[i] = int(enter[i])
 	for i in range(4):
 		for j in range(4):
@@ -70,7 +70,34 @@ def plus():
 		print(b,'+', c, '+', d,'= 24')
 		matched = True
 	# Others 
-	
+	if not matched:
+		# 3 repeated
+		if (len(re.findall(str(a),tempstr)) == 3 and re.findall(str(a),tempstr) == ['2','2','2']) or ((re.findall(str(a),tempstr) == ['2','2','2']) and  (len(re.findall(str(b),tempstr)) == 3)):
+			print('2 + 22 = 24')
+			matched = False
+		if (len(re.findall(str(a),tempstr)) == 3 and re.findall(str(a),tempstr) == ['1','1','1']) or ((re.findall(str(a),tempstr) == ['1','1','1']) and  (len(re.findall(str(b),tempstr)) == 3)):
+			print('11 + 13 = 24')
+			matched = False
+		elif (len(re.findall(str(a),tempstr)) == 2) or (len(re.findall(str(b),tempstr)) == 2) or (len(re.findall(str(c),tempstr)) == 2): # 2 number repeated
+			for i in range(len(plist)):
+				for j in range(len(plist)):
+					if ((plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i])) or ((plist[i] // 10 != plist[i] % 10) and (plist[j] // 10 != plist[j] // 10)):
+						if plist[i] + plist[j] ==24:
+							solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
+							matched = True
+							print(solution)
+					if matched:
+						break
+		else:		
+		# No repeated
+			for i in range(len(plist)):
+				for j in range(len(plist)):
+					if (plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i]):
+						if plist[i] + plist[j] ==24:
+							solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
+							matched = True
+							print(solution)
+							break
 	# AB + C + D !! Must be placed in last part of the function !!
 	if not matched:
 		opo_list = [0,0,0,0]
@@ -95,12 +122,51 @@ def plus():
 			
 def minus():
 	global matched
+	a = int(ele[0])
+	b = int(ele[1])
+	c = int(ele[2])
+	d = int(ele[3])
+	tempstr = str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3])
 	mlist=enter_list
 	length=len(mlist)
 	mlist.sort(reverse=True)
 	i = 0
 	solution = "no solution"
 	# Others (Have to be re-done)
+	if not matched:
+		# 3 repeated
+		if (len(re.findall(str(a),tempstr)) == 3) or (len(re.findall(str(b),tempstr)) == 3):
+			for i in range(len(mlist)):
+				for j in range(len(mlist)):
+					if ((mlist[i] // 10 != mlist[i] % 10) or (mlist[j] // 10 != mlist[j] // 10)) and ((mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i])):
+						if mlist[i] - mlist[j] ==24:
+							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
+							matched = True
+							print(solution)
+					if matched:
+						break
+		elif (len(re.findall(str(a),tempstr)) == 2) or (len(re.findall(str(b),tempstr)) == 2) or (len(re.findall(str(c),tempstr)) == 2): # 2 number repeated
+			print(2)
+			for i in range(len(mlist)):
+				for j in range(len(mlist)):
+					if ((mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i])) or ((mlist[i] // 10 != mlist[i] % 10) and (mlist[j] // 10 != mlist[j] %z 10)):
+						if mlist[i] - mlist[j] ==24:
+							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
+							matched = True
+							print(solution)
+					if matched:
+						break
+		else:		
+		# No repeated
+			print("False")
+			for i in range(len(mlist)):
+				for j in range(len(mlist)):
+					if (mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i]):
+						if mlist[i] - mlist[j] ==24:
+							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
+							matched = True
+							print(solution)
+							break
 	#for i in range(length):
 	#		for j in range(length):
 	#			if mlist[i] > mlist[j]:
@@ -111,10 +177,11 @@ def minus():
 	#					break
 	#print(solution)
 	# AB - C - D !! Must be placed in the last part of the function !!
+	print(matched)
 	if not matched:
 		opo_list = [0,0,0,0]
 		print(opo_list[3],opo_list[0])
-		for i in range(240):
+		for i in range(160):
 			opo_list = [ele[0],ele[1],ele[2],ele[3]]
 			print(opo_list,i)
 			r1 = random.randint(0,3)
