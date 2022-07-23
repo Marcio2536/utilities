@@ -1,4 +1,3 @@
-# Original Repo: https://github.com/MCL7D9/RoBoMaster
 from ast import Pass
 from itertools import permutations
 import time
@@ -23,7 +22,7 @@ def analyze():
 		for j in range(4):
 			if i != j:
 				enter_list.append(int(str(enter_list[i])+str(enter_list[j])))
-				ddg_list.append(str(enter_list[i])+str(enter_list[j]))
+				ddg_list.append(int(str(enter_list[i])+str(enter_list[j])))
 	length = len(enter_list)
 	if sign=="+":
 		pass
@@ -52,11 +51,7 @@ def plus():
 	length=len(plist)
 	plist.sort(reverse=True)
 	i = 0
-	#A+B+C+D
-	if a+b+c+d ==24:
-		print('index: 0+1+2+3=24')
-		matched = True
-	# A+B+C
+# A+B+C
 	if not matched and a+b+c == 24:
 		print(a,'+', b, '+', c,'= 24')
 		matched = True
@@ -68,6 +63,10 @@ def plus():
 		matched = True
 	if not matched and b+c+d == 24:
 		print(b,'+', c, '+', d,'= 24')
+		matched = True
+	#A+B+C+D
+	if (not matched) and (a+b+c+d ==24):
+		print('index: 0+1+2+3=24')
 		matched = True
 	# Others 
 	if not matched:
@@ -82,7 +81,7 @@ def plus():
 			for i in range(len(plist)):
 				for j in range(len(plist)):
 					if ((plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i])) or ((plist[i] // 10 != plist[i] % 10) and (plist[j] // 10 != plist[j] // 10)):
-						if plist[i] + plist[j] ==24:
+						if (i != j) and (plist[i] + plist[j] ==24):
 							solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
 							matched = True
 							print(solution)
@@ -92,7 +91,7 @@ def plus():
 		# No repeated
 			for i in range(len(plist)):
 				for j in range(len(plist)):
-					if (plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i]):
+					if (plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i]) and i != j:
 						if plist[i] + plist[j] ==24:
 							solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
 							matched = True
@@ -118,8 +117,7 @@ def plus():
 			if sum1 + a3 + a4 == 24:
 				print(sum1,'+',a3,'+',a4,'= 24')
 				break
-				matched = True
-			
+				matched = True			
 def minus():
 	global matched
 	a = int(ele[0])
@@ -134,48 +132,39 @@ def minus():
 	solution = "no solution"
 	# Others (Have to be re-done)
 	if not matched:
-		# 3 repeated
-		if (len(re.findall(str(a),tempstr)) == 3) or (len(re.findall(str(b),tempstr)) == 3):
-			for i in range(len(mlist)):
-				for j in range(len(mlist)):
-					if ((mlist[i] // 10 != mlist[i] % 10) or (mlist[j] // 10 != mlist[j] // 10)) and ((mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i])):
-						if mlist[i] - mlist[j] ==24:
-							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
+		# AB - C
+		for i in range(len(ddg_list)):
+			for j in range(4):
+				if ddg_list[i] >= 24 and ddg_list[i] <= 34:
+					if ddg_list[i] != 26:
+						if ddg_list[i] - ele[j] == 24:
+							print(ddg_list[i],'-', ele[j],'= 24')
 							matched = True
-							print(solution)
-					if matched:
-						break
-		elif (len(re.findall(str(a),tempstr)) == 2) or (len(re.findall(str(b),tempstr)) == 2) or (len(re.findall(str(c),tempstr)) == 2): # 2 number repeated
-			print(2)
-			for i in range(len(mlist)):
-				for j in range(len(mlist)):
-					if ((mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i])) or ((mlist[i] // 10 != mlist[i] % 10) and (mlist[j] // 10 != mlist[j] % 10)):
-						if mlist[i] - mlist[j] ==24:
-							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
-							matched = True
-							print(solution)
-					if matched:
-						break
-		else:		
-		# No repeated
-			print("False")
-			for i in range(len(mlist)):
-				for j in range(len(mlist)):
-					if (mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i]):
-						if mlist[i] - mlist[j] ==24:
-							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
-							matched = True
-							print(solution)
 							break
-	#for i in range(length):
-	#		for j in range(length):
-	#			if mlist[i] > mlist[j]:
-	#				reslt=mlist[i] - mlist[j]
-	#				if reslt==24:
-	#					solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
-	#					matched = True
-	#					break
-	#print(solution)
+					elif len(re.findall('2',tempstr)) >= 2:
+						if ddg_list[i] - ele[j] == 24:
+							print(ddg_list[i],'-', ele[j],'= 24')
+							matched = True
+							break
+		# AB - CD
+	if not matched:
+		for i in range(len(ddg_list)):
+			for j in range(len(ddg_list)): 
+				if i != j and ddg_list[i] >=34:
+					if (ddg_list[i] // 10 == ddg_list[j] % 10) or (ddg_list[j] // 10 == ddg_list[i] % 10):
+						if (ddg_list[i] // 10 == ddg_list[j] % 10) and ele.count(ddg_list[i]) < 2:
+							pass
+						elif (ddg_list[j] // 10 == ddg_list[i] % 10) and ele.count(ddg_list[i]) < 2:
+								pass
+						elif ddg_list[i] - ddg_list[j] == 24:
+							print(ddg_list[i],'-', ddg_list[j],'= 24')
+							matched = True
+							break				
+					else:
+						if ddg_list[i] - ddg_list[j] == 24:
+							print(ddg_list[i],'-', ddg_list[j],'= 24')
+							matched = True
+							break						
 	# AB - C - D !! Must be placed in the last part of the function !!
 	print(matched)
 	if not matched:
@@ -198,9 +187,7 @@ def minus():
 			if sum1 - a3 - a4 == 24:
 				print(sum1,'-',a3,'-',a4,'= 24')
 				break
-				matched = True
-
-		
+				matched = True		
 def multi():
 	global ele
 	a = int(ele[0])
