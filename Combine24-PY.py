@@ -149,7 +149,7 @@ def minus():
 			print(2)
 			for i in range(len(mlist)):
 				for j in range(len(mlist)):
-					if ((mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i])) or ((mlist[i] // 10 != mlist[i] % 10) and (mlist[j] // 10 != mlist[j] %z 10)):
+					if ((mlist[i] // 10 != mlist[j]) and (mlist[i] % 10 != mlist[j]) and (mlist[j] // 10 != mlist[i]) and (mlist[j] % 10 != mlist[i])) or ((mlist[i] // 10 != mlist[i] % 10) and (mlist[j] // 10 != mlist[j] % 10)):
 						if mlist[i] - mlist[j] ==24:
 							solution= str(mlist[i]) + ' - ' + str(mlist[j]) +' = 24'
 							matched = True
