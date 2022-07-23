@@ -66,7 +66,7 @@ def plus():
 		matched = True
 	#A+B+C+D
 	if (not matched) and (a+b+c+d ==24):
-		print('index: 0+1+2+3=24')
+		print(a,'+',b,'+',c,'+',d,'= 24')
 		matched = True
 	# Others 
 	if not matched:
@@ -77,26 +77,33 @@ def plus():
 		if (len(re.findall(str(a),tempstr)) == 3 and re.findall(str(a),tempstr) == ['1','1','1']) or ((re.findall(str(a),tempstr) == ['1','1','1']) and  (len(re.findall(str(b),tempstr)) == 3)):
 			print('11 + 13 = 24')
 			matched = False
-		elif (len(re.findall(str(a),tempstr)) == 2) or (len(re.findall(str(b),tempstr)) == 2) or (len(re.findall(str(c),tempstr)) == 2): # 2 number repeated
-			for i in range(len(plist)):
-				for j in range(len(plist)):
-					if ((plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i])) or ((plist[i] // 10 != plist[i] % 10) and (plist[j] // 10 != plist[j] // 10)):
-						if (i != j) and (plist[i] + plist[j] ==24):
-							solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
-							matched = True
-							print(solution)
-					if matched:
-						break
-		else:		
-		# No repeated
-			for i in range(len(plist)):
-				for j in range(len(plist)):
-					if (plist[i] // 10 != plist[j]) and (plist[i] % 10 != plist[j]) and (plist[j] // 10 != plist[i]) and (plist[j] % 10 != plist[i]) and i != j:
-						if plist[i] + plist[j] ==24:
-							solution= str(plist[i]) + ' + ' + str(plist[j]) +' = 24'
-							matched = True
-							print(solution)
-							break
+		else:   # AB + C
+			for i in range(len(ddg_list)):
+				for j in range(4):
+					if ddg_list[i] <= 24:
+						if ddg_list[i] != 17:
+							if ddg_list[i] + ele[j] == 24:
+								print(ddg_list[i],'+', ele[j],'= 24')
+								matched = True
+								break
+						elif len(re.findall('7',tempstr)) >= 2:
+							if ddg_list[i] + ele[j] == 24:
+								print(ddg_list[i],'+', ele[j],'= 24')
+								matched = True
+								break
+	# AB + CD
+	if not matched:
+		templist = list(str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3]))
+		if templist.count('1') == 3 and templist.count('3') == 1:
+			print('11 + 13 = 24')
+			matched = True
+		if templist.count('1') == 2 and templist.count('2') == 2:
+			print('12 + 12 = 24')
+			matched = True
+		if templist.count('1') == 2 and templist.count('4') == 1 and templist.count('0') == 1:
+			print('10 + 14 = 24')
+			matched = True
+	
 	# AB + C + D !! Must be placed in last part of the function !!
 	if not matched:
 		opo_list = [0,0,0,0]
@@ -152,10 +159,10 @@ def minus():
 			for j in range(len(ddg_list)): 
 				if i != j and ddg_list[i] >=34:
 					if (ddg_list[i] // 10 == ddg_list[j] % 10) or (ddg_list[j] // 10 == ddg_list[i] % 10):
-						if (ddg_list[i] // 10 == ddg_list[j] % 10) and ele.count(ddg_list[i]) < 2:
-							pass
-						elif (ddg_list[j] // 10 == ddg_list[i] % 10) and ele.count(ddg_list[i]) < 2:
-								pass
+						if (ddg_list[i] // 10 == ddg_list[j] % 10) and ele.count(ddg_list[i]//10) < 2:
+							continue
+						elif (ddg_list[j] // 10 == ddg_list[i] % 10) and ele.count(ddg_list[i]%10) < 2:
+							continue
 						elif ddg_list[i] - ddg_list[j] == 24:
 							print(ddg_list[i],'-', ddg_list[j],'= 24')
 							matched = True
@@ -166,10 +173,8 @@ def minus():
 							matched = True
 							break						
 	# AB - C - D !! Must be placed in the last part of the function !!
-	print(matched)
 	if not matched:
 		opo_list = [0,0,0,0]
-		print(opo_list[3],opo_list[0])
 		for i in range(160):
 			opo_list = [ele[0],ele[1],ele[2],ele[3]]
 			print(opo_list,i)
@@ -235,7 +240,7 @@ def multi():
 			for j in range(4):
 				if (i < j):
 					if ele[i] * ele[j] == 24:
-						print(i,'*',j,'= 24')
+						print(ele[i],'*',ele[j],'= 24')
 						index = 1
 						break
 def divid():
