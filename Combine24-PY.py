@@ -235,7 +235,7 @@ def multi():
 		print(b,'*', c, '*', d,'= 24')
 		index = 1
 	# A*B*C*D
-	if (a * b * c * d == 24):
+	if (a * b * c * d == 24) and (index == 0):
 		print(a,'*', b,'*', c,'*', d,'= 24')
 		index = 1
 def divid():
