@@ -3,16 +3,16 @@ from itertools import permutations
 import time
 import random
 import re
-enter=input("Enter a sign and 4 numbers: ")
+enter = input("Enter a sign and 4 numbers (eg: *8964, +2318) : ")
 startime = time.time()
-sign=enter[4]
-ele=[0,0,0,0]
-ddg_list =[]
-enter_list=[0,0,0,0]
-reslt=0
-solution=""
+sign = enter[0]
+enter = enter[slice(1,5)]
+ele = [0,0,0,0]
+ddg_list = []
+enter_list = [0,0,0,0]
+solution = ""
 matched = False
-length=0
+length = 0
 def analyze():
 	global length
 	for i in range(4):
@@ -46,31 +46,13 @@ def plus():
 	if ele == [2,2,2,2]:
 		print('2 + 22 = 24')
 		matched = True
-	print(enter_list)
 	plist=enter_list
 	length=len(plist)
 	plist.sort(reverse=True)
 	i = 0
-# A+B+C
-	if not matched and a+b+c == 24:
-		print(a,'+', b, '+', c,'= 24')
-		matched = True
-	if not matched and a+b+d == 24:
-		print(a,'+', b, '+', d,'= 24')
-		matched = True
-	if not matched and a+c+d == 24:
-		print(a,'+', c, '+', d,'= 24')
-		matched = True
-	if not matched and b+c+d == 24:
-		print(b,'+', c, '+', d,'= 24')
-		matched = True
-	#A+B+C+D
-	if (not matched) and (a+b+c+d ==24):
-		print(a,'+',b,'+',c,'+',d,'= 24')
-		matched = True
-	# Others 
+		# Others 
 	if not matched:
-		# 3 repeated
+		# 3 repeated numbers
 		if (len(re.findall(str(a),tempstr)) == 3 and re.findall(str(a),tempstr) == ['2','2','2']) or ((re.findall(str(a),tempstr) == ['2','2','2']) and  (len(re.findall(str(b),tempstr)) == 3)):
 			print('2 + 22 = 24')
 			matched = False
@@ -85,12 +67,25 @@ def plus():
 							if ddg_list[i] + ele[j] == 24:
 								print(ddg_list[i],'+', ele[j],'= 24')
 								matched = True
-								break
 						elif len(re.findall('7',tempstr)) >= 2:
 							if ddg_list[i] + ele[j] == 24:
 								print(ddg_list[i],'+', ele[j],'= 24')
 								matched = True
-								break
+					if matched:
+						break
+	# A+B+C
+	if not matched and a+b+c == 24:
+		print(a,'+', b, '+', c,'= 24')
+		matched = True
+	if not matched and a+b+d == 24:
+		print(a,'+', b, '+', d,'= 24')
+		matched = True
+	if not matched and a+c+d == 24:
+		print(a,'+', c, '+', d,'= 24')
+		matched = True
+	if not matched and b+c+d == 24:
+		print(b,'+', c, '+', d,'= 24')
+		matched = True
 	# AB + CD
 	if not matched:
 		templist = list(str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3]))
@@ -103,11 +98,13 @@ def plus():
 		if templist.count('1') == 2 and templist.count('4') == 1 and templist.count('0') == 1:
 			print('10 + 14 = 24')
 			matched = True
-	
+	#A+B+C+D
+	if (not matched) and (a+b+c+d ==24):
+		print(a,'+',b,'+',c,'+',d,'= 24')
+		matched = True
 	# AB + C + D !! Must be placed in last part of the function !!
 	if not matched:
 		opo_list = [0,0,0,0]
-		print(opo_list[3],opo_list[0])
 		for i in range(160):
 			opo_list = [ele[0],ele[1],ele[2],ele[3]]
 			r1 = random.randint(0,3)
@@ -123,8 +120,8 @@ def plus():
 			a4 = opo_list[0]
 			if sum1 + a3 + a4 == 24:
 				print(sum1,'+',a3,'+',a4,'= 24')
-				break
-				matched = True			
+				matched = True
+				break			
 def minus():
 	global matched
 	a = int(ele[0])
@@ -133,11 +130,10 @@ def minus():
 	d = int(ele[3])
 	tempstr = str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3])
 	mlist=enter_list
-	length=len(mlist)
 	mlist.sort(reverse=True)
 	i = 0
 	solution = "no solution"
-	# Others (Have to be re-done)
+	# Others
 	if not matched:
 		# AB - C
 		for i in range(len(ddg_list)):
@@ -177,7 +173,6 @@ def minus():
 		opo_list = [0,0,0,0]
 		for i in range(160):
 			opo_list = [ele[0],ele[1],ele[2],ele[3]]
-			print(opo_list,i)
 			r1 = random.randint(0,3)
 			a1 = opo_list[r1]
 			opo_list.pop(r1)
@@ -200,12 +195,17 @@ def multi():
 	c = int(ele[2])
 	d = int(ele[3])
 	index = 0
-	# A*B*C*D
-	if matched:
-		index = 1
-	if (a * b * c * d == 24):
-		print(a,'*', b,'*', c,'*', d,'= 24')
-		index = 1
+	#A*B
+	if index == 0:
+		for i in range(4):
+			for j in range(4):
+				if (i < j):
+					if ele[i] * ele[j] == 24:
+						print(ele[i],'*',ele[j],'= 24')
+						index = 1
+						break
+				if index == 1:
+					break
 	# AB*C
 	for i in range(4):
 		for j in range(4):
@@ -234,15 +234,10 @@ def multi():
 	if (index == 0) and b*c*d == 24:
 		print(b,'*', c, '*', d,'= 24')
 		index = 1
-	#A*B
-	if index == 0:
-		for i in range(4):
-			for j in range(4):
-				if (i < j):
-					if ele[i] * ele[j] == 24:
-						print(ele[i],'*',ele[j],'= 24')
-						index = 1
-						break
+	# A*B*C*D
+	if (a * b * c * d == 24):
+		print(a,'*', b,'*', c,'*', d,'= 24')
+		index = 1
 def divid():
 	global ele
 	a = int(ele[0])
