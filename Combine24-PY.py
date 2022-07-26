@@ -30,16 +30,14 @@ def plus():
 	b = int(ele[1])
 	c = int(ele[2])
 	d = int(ele[3])
+	templist = list(str(a) + str(b) + str(c) + str(d))
 	if ele == [2,2,2,2]:
 		print('2 + 22 = 24')
 		matched = True
 	if not matched:
 		# 3 repeated numbers, will use match cases as not many possible answers
-		if (len(re.findall(str(a),enter)) == 3 and re.findall(str(a),enter) == ['2','2','2']) or ((re.findall(str(a),enter) == ['2','2','2']) and  (len(re.findall(str(b),enter)) == 3)):
+		if (len(re.findall(str(a),enter)) == 3 and re.findall(str(a),enter) == ['2','2','2']) or ((re.findall(str(b),enter) == ['2','2','2']) and  (len(re.findall(str(b),enter)) == 3)):
 			print('2 + 22 = 24')
-			matched = True
-		if (len(re.findall(str(a),enter)) == 3 and re.findall(str(a),enter) == ['1','1','1']) or ((re.findall(str(a),enter) == ['1','1','1']) and  (len(re.findall(str(b),enter)) == 3)):
-			print('11 + 13 = 24')
 			matched = True
 		else:   # AB + C eg: 18+6
 			for i in range(len(ddg_list)):
@@ -70,7 +68,6 @@ def plus():
 		matched = True
 	# AB + CD eg: 11+13
 	if not matched:
-		templist = list(str(ele[0]) + str(ele[1]) + str(ele[2]) + str(ele[3]))
 		if templist.count('1') == 3 and templist.count('3') == 1:
 			print('11 + 13 = 24')
 			matched = True
@@ -110,17 +107,17 @@ def minus():
 		# AB - C eg: 33-9
 		for i in range(len(ddg_list)):
 			for j in range(4):
+				if matched:
+					break
 				if ddg_list[i] >= 24 and ddg_list[i] <= 34:
 					if ddg_list[i] != 26:
 						if ddg_list[i] - ele[j] == 24:
 							print(ddg_list[i],'-', ele[j],'= 24')
 							matched = True
-							break
 					elif len(re.findall('2',enter)) >= 2:
 						if ddg_list[i] - ele[j] == 24:
 							print(ddg_list[i],'-', ele[j],'= 24')
 							matched = True
-							break
 	# AB - CD eg: 99-75
 	if not matched:
 		for i in range(len(ddg_list)):
@@ -183,6 +180,8 @@ def multi():
 	if index == 0:
 		for i in range(4):
 			for j in range(4):
+				if index == 1:
+					break
 				if i != j:
 					enter = ele[i] * 10 + ele[j]
 					temlist = [a,b,c,d]
@@ -219,10 +218,11 @@ def divid():
 	if index == 0:
 		for i in range(len(ddg_list)):
 			for j in range(len(ele)):
+				if index == 1:
+					break
 				if ddg_list[i] / ele[j] == 24:
 					print(ddg_list[i],'/',ele[j],'= 24')
 					index = 1
-					break
 	# ABC / D eg: 216/9
 	if index == 0:
 		tridig_list = list(''.join(p) for p in permutations(enter, 3))
@@ -230,11 +230,11 @@ def divid():
 			tridig_list[i] = int(tridig_list[i])
 		for i in range(len(tridig_list)):
 			for j in range(4):
+				if index == 1:
+					break
 				if tridig_list[i] / ele[j] == 24:
 					print(tridig_list[i],'/',ele[j],'= 24')
 					index = 1
-			if index == 1:
-					break
 analyze()
 endtime = time.time()
 usedtime = endtime - startime
