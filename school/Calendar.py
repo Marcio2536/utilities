@@ -1,9 +1,15 @@
+#20221002 
 import datetime
 import yaml
-def readconfig():
-	global exceptdate,skiprange,startdate
-	with open('config.yaml', 'r') as file:
+import time
+def readconfig(): # Get configuration from config.yaml
+	global exceptdate,skiprange,startdate,output_path
+	with open('config.yaml', 'r') as file: # path to configuration file
 		yml = yaml.safe_load(file)
+	try:
+		output_path = yml['output_path']
+	except:
+		output_path = 'schday.ics'
 	startdate = yml['startdate']
 	exceptls = yml['exceptdate'] # Retrieve the dates that are going to be excluded
 	exceptdate = []
@@ -42,19 +48,20 @@ def exception(year,dayofyr): # Check if the date passed by the main program matc
 			return True
 	return False
 def main():
-	global initdate, ics, exceptdate
+	global initdate, ics, exceptdate, output_path
+	startime = time.time()
 	schtuple = (1,2,3,4,5,6) # Set up a tuple for school day iteration
 	schday = iter(schtuple)
-	ics = open('schday.ics','at') 
 	readconfig() # Retrieve configuration from config.yaml
+	ics = open(output_path,'at') 
 	yyyy, mm, dd = map(int,startdate.split('/'))	# Retrieve the first record from configuration
 	ics.write('BEGIN:VCALENDAR\nPRODID:-//Pythonista\nVERSION:2.0\nCALSCALE:GREGORIAN\nX-WR-TIMEZONE:Asia/Hong_Kong\nX-WR-CALNAME:School Day\nX-WR-CALDESC:School Day\n')
 	initdate = datetime.datetime(yyyy,mm,dd)
 	currentyr = datetime.datetime(yyyy,12,31)
 	endmonth = datetime.datetime(yyyy+1,8,31)
-	daynum = int(initdate.strftime("%j")) # Turn the start date to day number of a year (1-366)
+	daynum = int(initdate.strftime("%j")) # Turn the startdate to day number of a year (1-366)
 	yearofday = int(currentyr.strftime("%j")) # Determine the number of days in a year (i.e. 365 Days for 2023, 366 Days for 2024)
-	endsummer = (int(endmonth.strftime("%j"))-1) if (yyyy+1) % 4 == 0 else int(endmonth.strftime("%j"))
+	endsummer = (int(endmonth.strftime("%j"))-1) if (yyyy+1) % 4 == 0 else int(endmonth.strftime("%j")) # Turn the last day pf a school year to day number of a year (1-366)
 	i = daynum
 	while  i != endsummer:
 		if checkweek(yyyy,i) and (not exception(yyyy,i)) and (skipday(yyyy,i)==1):
@@ -73,5 +80,6 @@ def main():
 			i -= yearofday
 	ics.write('END:VCALENDAR')
 	ics.close()
-	print('Done')
+	endtime = time.time()
+	print('Done!',endtime-startime)
 main()

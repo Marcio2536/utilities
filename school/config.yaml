@@ -1,3 +1,4 @@
+output_path: schday.ics
 startdate: 2022/9/2
 exceptdate:
   - 2022/9/12
