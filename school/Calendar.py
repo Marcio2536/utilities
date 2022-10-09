@@ -4,7 +4,7 @@ import yaml
 import time
 def readconfig(): # Get configuration from config.yaml
 	global exceptdate,skiprange,startdate,output_path
-	with open('config.yaml', 'r') as file: # path to configuration file
+	with open('D:/Utilities/config.yaml', 'r') as file: # !! YOU WILL AND ONLY NEED TO CHANGE THE PATH TO CONFIGURATION IN MOST CASE !!
 		yml = yaml.safe_load(file)
 	try:
 		output_path = yml['output_path']
