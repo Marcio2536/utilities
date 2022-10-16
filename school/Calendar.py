@@ -2,9 +2,10 @@
 import datetime
 import yaml
 import time
+import uuid
 def readconfig(): # Get configuration from config.yaml
 	global exceptdate,skiprange,startdate,output_path
-	with open('D:/Utilities/config.yaml', 'r') as file: # !! YOU WILL AND ONLY NEED TO CHANGE THE PATH TO CONFIGURATION IN MOST CASE !!
+	with open('config.yaml', 'r') as file: # !! YOU WILL AND ONLY NEED TO CHANGE THE PATH TO CONFIGURATION IN MOST CASE !!
 		yml = yaml.safe_load(file)
 	try:
 		output_path = yml['output_path']
@@ -24,7 +25,7 @@ def readconfig(): # Get configuration from config.yaml
 def appendics(py,pm,pd,ey,em,ed,schday): # Append the corresponding date and school day to the calendar file
 	global ics
 	context = 'BEGIN:VEVENT\n'
-	context += 'DTSTART;VALUE=DATE:' + py + pm + pd + '\nDTEND;VALUE=DATE:' + ey + em + ed + '\nTRANSP:TRANSPARENT\nSUMMARY:Day ' + str(schday) + '\nEND:VEVENT\n'
+	context += 'UID:' + str(uuid.uuid4()) + '\nDTSTAMP:20220901T130000Z\nDTSTART;VALUE=DATE:' + py + pm + pd + '\nDTEND;VALUE=DATE:' + ey + em + ed + '\nTRANSP:TRANSPARENT\nSUMMARY:Day ' + str(schday) + '\nEND:VEVENT\n'
 	ics.write(context)
 def skipday(year,dayofyr):
 	givendate = datetime.datetime(year, 1, 1) + datetime.timedelta(dayofyr - 1)
@@ -55,7 +56,7 @@ def main():
 	readconfig() # Retrieve configuration from config.yaml
 	ics = open(output_path,'at') 
 	yyyy, mm, dd = map(int,startdate.split('/'))	# Retrieve the first record from configuration
-	ics.write('BEGIN:VCALENDAR\nPRODID:-//Pythonista\nVERSION:2.0\nCALSCALE:GREGORIAN\nX-WR-TIMEZONE:Asia/Hong_Kong\nX-WR-CALNAME:School Day\nX-WR-CALDESC:School Day\n')
+	ics.write('BEGIN:VCALENDAR\nPRODID:-//Pythonista\nVERSION:2.0\nCALSCALE:GREGORIAN\nX-WR-TIMEZONE:Asia/Hong_Kong\nX-WR-CALNAME:School Days\nX-WR-CALDESC:School Day\n')
 	initdate = datetime.datetime(yyyy,mm,dd)
 	currentyr = datetime.datetime(yyyy,12,31)
 	endmonth = datetime.datetime(yyyy+1,8,31)
@@ -81,5 +82,5 @@ def main():
 	ics.write('END:VCALENDAR')
 	ics.close()
 	endtime = time.time()
-	print('Done!',endtime-startime)
+	print('Done! ',endtime-startime,'s used.',sep='')
 main()
