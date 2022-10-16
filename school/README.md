@@ -32,7 +32,7 @@ Generate a calendar showing school days (i.e. Day 1 to Day 6) by retrieving the 
 5. Run it !
 
 ## - Pythonista (iOS/ iPad OS)
-1. Install Stash by referring to [here]([](https://github.com/ywangd/stash)).
+1. Install Stash by referring to [here](https://github.com/ywangd/stash).
 2. Run the  `launch_stash.py`  script and enter  `pip install pyyaml`.
 3. Download  `config.yaml`  and  `calendar.py`  and place them in the same directory.
 4. Open `calendar.py`  on notepad and modify the path to configuration on line 7 to your own directory. (Usually it’s just “config.yaml” )
